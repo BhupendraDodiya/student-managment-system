@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.hashers import make_password,check_password
-from app.models import Student
+from app.models import Student,student_dashboard
 from django.contrib import messages
 
 # Create your views here.
@@ -8,10 +8,12 @@ def index(request):
     return render(request,'index.html')
 
 def courses(request):
-    return render(request,'courses.html')
+    res = student_dashboard.objects.all()
+    return render(request,'courses.html',{'tab':res})
 
 def dashboard(request):
-    return render(request,'dashboard.html')
+    res = student_dashboard.objects.all()
+    return render(request,'dashboard.html',{'res':res})
 
 def employees(request):
     return render(request,'employees.html')
@@ -35,9 +37,14 @@ def tenants(request):
     return render(request,'tenants.html')
 
 def viewstudents(request):
-    return render(request,'viewstudents.html')
+    stud = Student.objects.all()
+    return render(request,'viewstudents.html',{'stud':stud})
 
 #create action views
+def delete(request,uid):
+    student_dashboard.objects.filter(id=uid).delete()
+    return redirect('/courses/')
+
 
 def sign_up_reg(request):
     if request.method == 'POST':
@@ -66,3 +73,31 @@ def sign_in_reg(request):
             messages.error(request,'Email not Exist')
             return redirect('/')
         
+def courses_add(request):
+    if request.method=='POST':
+        cname = request.POST['cname']
+        fess = request.POST['fess']
+        duration = request.POST['duration']
+        description = request.POST['description']
+        if student_dashboard.objects.filter(Course_Name=cname).exists():
+            return render(request,'courses.html',{'msg':'Course already exist'})
+        else:
+            student_dashboard.objects.create(Course_Name=cname,Fess=fess,Duration=duration,Description=description)
+            return redirect('/courses/')
+
+def update(request,uid):
+    res = student_dashboard.objects.get(id=uid)
+    return render(request,'upd.html',{'row':res})
+
+def upd(request):
+    if request.method=="POST":
+        row = request.POST['row']
+        cname = request.POST['coursename']
+        fess = request.POST['fess']
+        duration = request.POST['duration']
+        description = request.POST['description']
+        student_dashboard.objects.filter(id=row).update(Course_Name=cname,Fess=fess,Duration=duration,Description=description)
+        return redirect('/courses/')
+
+
+    

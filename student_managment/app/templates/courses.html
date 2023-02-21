@@ -8,7 +8,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="{% static 'img/apple-icon.png' %}">
   <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
   <title>
-    Satkar Courses
+     Courses
   </title>
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css"
@@ -40,7 +40,7 @@
     <div class="collapse navbar-collapse  w-auto  max-height-vh-100" id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link text-white active bg-gradient-primary" href="/dashboard.html">
+          <a class="nav-link text-white active bg-gradient-primary" href="/dashboard/">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">dashboard</i>
             </div>
@@ -49,7 +49,7 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link text-white " href="viewstudents.html">
+          <a class="nav-link text-white " href="/viewstudents/">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">receipt_long</i>
             </div>
@@ -57,7 +57,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="/courses.html">
+          <a class="nav-link text-white " href="/courses/">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">view_in_ar</i>
             </div>
@@ -70,7 +70,7 @@
           <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="profile.html">
+          <a class="nav-link text-white " href="/profile/">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">person</i>
             </div>
@@ -134,286 +134,323 @@
                 <i class="material-icons opacity-10">weekend</i>
               </div>
               <div class="text-end pt-1">
+                {% if msg %}
+                <strong style='color:red;'>* {{msg}} </strong>
+                {% endif%}
                 <a class="btn bg-gradient-dark mb-0" href="javascript:;" data-bs-toggle="modal"
                   data-bs-target="#exampleModal"><i class="material-icons text-sm">add</i>Add New Courses</a>
-              </div>
-            </div>
-            </div>
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                  aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">New Course Add</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="card-body">
+                          <form role="form" method='post' action='/courses_add/'>
+                            {% csrf_token %}
+                            <div class="row">
+                              <div class="col-lg-12 col-md-6">
+                                <div class="input-group input-group-outline mb-3">
+                                  <label class="form-label">Course Name</label>
+                                  <input type="text" name='cname' class="form-control" onfocus="focused(this)"
+                                    onfocusout="defocused(this)">
+                                </div>
+                              </div>
 
-          </div>
-        </div>
+                              <div class="col-lg-12 col-md-6">
+                                <div class="input-group input-group-outline mb-3">
+                                  <label class="form-label">Fess</label>
+                                  <input type="text" name='fess' class="form-control" onfocus="focused(this)"
+                                    onfocusout="defocused(this)">
+                                </div>
+                              </div>
 
-      </div>
+                              <div class="col-lg-12 col-md-6">
+                                <div class="input-group input-group-outline mb-3">
+                                  <label class="form-label">Duration</label>
+                                  <input type="text" name='duration' class="form-control" onfocus="focused(this)"
+                                    onfocusout="defocused(this)">
+                                </div>
+                              </div>
 
-      <div class="row mt-4 mb-4">
-        <div class="col-lg-12 col-md-6 mb-md-0 mb-4">
-          <div class="card">
-            <div class="card-header pb-0">
-              <div class="row">
-                <div class="col-lg-6 col-7">
-                  <h6>Total Courses</h6>
+                              <!-- <div class="mb-3">
+                      <label for="formFile" class="form-label">Default file input example</label>
+                      
+                    </div> -->
+
+                              <div class="input-group input-group-outline mb-3">
+                                <textarea name='description' class="form-control col-lg-12 col-md-6"
+                                  placeholder="course description" id="floatingTextarea"></textarea>
+                              </div>
+
+                              <div class="text-center">
+                                <button type="submit" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-2 mb-0"
+                                  data-bs-dismiss="modal">Submit</button>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
               </div>
             </div>
-            <div class="card-body px-0 pb-2">
-              <div class="table-responsive">
-                <table class="table align-items-center mb-0">
-                  <thead>
-                    <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Courses Name</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Fees
-                      </th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                        Comment</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                        Registered Date</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <img src="{% static '/img/small-logos/logo-asana.svg' %}" class="avatar avatar-sm me-3" alt="xd">
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <a href="Courses_details.html" type="button"
-                              class="btn btn-outline-primary btn-sm mb-0">Python</a>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="align-middle text-sm">
-                        <span class="text-xs font-weight-bold">35k</span>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="text-xs font-weight-bold">It is 3 months course</span>
-                      </td>
-                      <td class="text-center text-sm">
-                        <span class="text-xs font-weight-bold"> 12 NOV 7:20 PM </span>
-                      </td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <img src="{% static '/img/small-logos/logo-asana.svg' %}" class="avatar avatar-sm me-3" alt="xd">
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <a href="Courses_details.html" type="button"
-                              class="btn btn-outline-primary btn-sm mb-0">React</a>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="align-middle text-sm">
-                        <span class="text-xs font-weight-bold">35k</span>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="text-xs font-weight-bold">It is 6 months course</span>
-                      </td>
-                      <td class="text-center text-sm">
-                        <span class="text-xs font-weight-bold"> 12 NOV 7:20 PM </span>
-                      </td>
-                    </tr>
-
-                  </tbody>
-                </table>
-              </div>
-            </div>
           </div>
+
         </div>
       </div>
 
+    </div>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="card-body">
-          <form role="form">
+    <div class="row mt-4 mb-4">
+      <div class="col-lg-12 col-md-6 mb-md-0 mb-4">
+        <div class="card">
+          <div class="card-header pb-0">
             <div class="row">
-              <div class="col-lg-6 col-md-6">
-                <div class="input-group input-group-outline mb-3">
-                  <label class="form-label">Name</label>
-                  <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
-                </div>
-              </div>
-              <div class="col-lg-6 col-md-6">
-                <div class="input-group input-group-outline mb-3">
-                  <label class="form-label">Email</label>
-                  <input type="email" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
-                </div>
-              </div>
-              <div class="col-lg-6 col-md-6">
-                <div class="input-group input-group-outline mb-3">
-                  <label class="form-label">Mobile No.</label>
-                  <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
-                </div>
+              <div class="col-lg-6 col-7">
+                <h6>Total Courses</h6>
               </div>
 
-              <div class="col-lg-6 col-md-6">
-                <div class="input-group input-group-outline mb-3">
-                  <label class="form-label">College</label>
-                  <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
-                </div>
-              </div>
+            </div>
+          </div>
+          <div class="card-body px-0 pb-2">
+            <div class="table-responsive">
+              <table class="table align-items-center mb-0">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Courses Name</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Fess</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                      Duration</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                      Detail</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                        Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% if tab %}
+                  {% for i in tab %}
+                  <tr>
+                    <td>{{i.Course_Name}}</td>
+                    <td>{{i.Fess}}</td>
+                    <td>{{i.Duration}}</td>
+                    <td>{{i.Description}}</td>
+                    <td><a class="btn btn-primary" href="/update/{{i.id}}"><i class="fa fa-pencil">
+                          Edit</i></a>&nbsp&nbsp
+                      <a class="btn btn-danger" href="/delete/{{i.id}}"
+                        onclick="return confirm('Are you sure you want to delete this?')">
+                        <i class="fa fa-trash"> Delete </i></a>
+                    </td>
+                  </tr>
+                  {% endfor %} 
+                  {% endif %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-              <div class="col-lg-6 col-md-6">
-                <div class="input-group input-group-outline mb-3">
-                  <label class="form-label">Degree</label>
-                  <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
-                </div>
-              </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="card-body">
+              <form role="form">
+                <div class="row">
+                  <div class="col-lg-6 col-md-6">
+                    <div class="input-group input-group-outline mb-3">
+                      <label class="form-label">Name</label>
+                      <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6">
+                    <div class="input-group input-group-outline mb-3">
+                      <label class="form-label">Email</label>
+                      <input type="email" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6">
+                    <div class="input-group input-group-outline mb-3">
+                      <label class="form-label">Mobile No.</label>
+                      <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
+                    </div>
+                  </div>
+
+                  <div class="col-lg-6 col-md-6">
+                    <div class="input-group input-group-outline mb-3">
+                      <label class="form-label">College</label>
+                      <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
+                    </div>
+                  </div>
+
+                  <div class="col-lg-6 col-md-6">
+                    <div class="input-group input-group-outline mb-3">
+                      <label class="form-label">Degree</label>
+                      <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
+                    </div>
+                  </div>
 
 
-              <div class="col-lg-6 col-md-6">
-                <div class="input-group input-group-outline mb-3">
-                  <select class="form-select form-control" placeholder="courses" onfocus="focused(this)"
-                    onfocusout="defocused(this)" aria-label="Default select example">
-                    <option class="fw-lighter" selected>Courses</option>
-                    <option value="Python">Python</option>
-                    <option value="Node js">Node js</option>
-                    <option value="Java">Java</option>
-                  </select>
-                </div>
-              </div>
+                  <div class="col-lg-6 col-md-6">
+                    <div class="input-group input-group-outline mb-3">
+                      <select class="form-select form-control" placeholder="courses" onfocus="focused(this)"
+                        onfocusout="defocused(this)" aria-label="Default select example">
+                        <option class="fw-lighter" selected>Courses</option>
+                        <option value="Python">Python</option>
+                        <option value="Node js">Node js</option>
+                        <option value="Java">Java</option>
+                      </select>
+                    </div>
+                  </div>
 
-              <div class="col-lg-6 col-md-6">
-                <div class="input-group input-group-outline mb-3">
-                  <select class="form-select form-control" onfocus="focused(this)" onfocusout="defocused(this)"
-                    aria-label="Default select example">
-                    <option selected>Fees</option>
-                    <option value="13k">13k</option>
-                    <option value="15k">15k</option>
-                    <option value="30k">30k</option>
-                  </select>
-                </div>
-              </div>
+                  <div class="col-lg-6 col-md-6">
+                    <div class="input-group input-group-outline mb-3">
+                      <select class="form-select form-control" onfocus="focused(this)" onfocusout="defocused(this)"
+                        aria-label="Default select example">
+                        <option selected>Fees</option>
+                        <option value="13k">13k</option>
+                        <option value="15k">15k</option>
+                        <option value="30k">30k</option>
+                      </select>
+                    </div>
+                  </div>
 
-              <div class="col-lg-6 col-md-6">
-                <div class="input-group input-group-outline mb-3">
-                  <select class="form-select form-control" onfocus="focused(this)" onfocusout="defocused(this)"
-                    aria-label="Default select example">
-                    <option selected>Duration</option>
-                    <option value="3 Months">3 Months</option>
-                    <option value="6 Months">6 Months</option>
-                    <option value="9 Months">9 Months</option>
-                    <option value="12 Months">12 Months</option>
+                  <div class="col-lg-6 col-md-6">
+                    <div class="input-group input-group-outline mb-3">
+                      <select class="form-select form-control" onfocus="focused(this)" onfocusout="defocused(this)"
+                        aria-label="Default select example">
+                        <option selected>Duration</option>
+                        <option value="3 Months">3 Months</option>
+                        <option value="6 Months">6 Months</option>
+                        <option value="9 Months">9 Months</option>
+                        <option value="12 Months">12 Months</option>
 
-                  </select>
-                </div>
-              </div>
+                      </select>
+                    </div>
+                  </div>
 
-              <!-- <div class="mb-3">
+                  <!-- <div class="mb-3">
                 <label for="formFile" class="form-label">Default file input example</label>
                 
               </div> -->
-              
-              <div class="input-group input-group-outline mb-3">
-                <textarea class="form-control col-lg-12 col-md-6" placeholder="Leave a comment here"
-                id="floatingTextarea"></textarea>
-              </div>
-              
-              
-              <div class="col-lg-12 col-md-12 my-2">
-                <div class="d-flex align-items-center justify-content-lg-between">
-                  <label for="myfile">Upload Image : </label>
-                  <input type="file" id="myfile" name="myfile">
-                </div>
-              </div>
 
-              <div class="text-center">
-                <button type="button" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-2 mb-0"
-                  data-bs-dismiss="modal">Submit</button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-      <!-- Modal for adding courses -->
-      <div class="modal fade" id="exampleModl" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Add Courses</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-
-              <div class="card-body">
-                <form role="form">
-                  <div class="row">
-                    <div class="col-lg-6 col-md-6">
-                      <div class="input-group input-group-outline mb-3">
-                        <label class="form-label">Course</label>
-                        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
-                      </div>
-                    </div>
-
-                    <div class="col-lg-6 col-md-6">
-                      <div class="input-group input-group-outline mb-3">
-                        <select class="form-select form-control" onfocus="focused(this)" onfocusout="defocused(this)"
-                          aria-label="Default select example">
-                          <option selected>Fees</option>
-                          <option value="13k">13k</option>
-                          <option value="15k">15k</option>
-                          <option value=30k">30k</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div class="input-group input-group-outline mb-3">
-                      <textarea class="form-control col-lg-12 col-md-6" placeholder="Leave a comment here"
-                        id="floatingTextarea"></textarea>
-                    </div>
+                  <div class="input-group input-group-outline mb-3">
+                    <textarea class="form-control col-lg-12 col-md-6" placeholder="Leave a comment here"
+                      id="floatingTextarea"></textarea>
+                  </div>
 
 
-                    <div class="text-center">
-                      <button type="button" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-2 mb-0"
-                        data-bs-dismiss="modal">Submit</button>
+                  <div class="col-lg-12 col-md-12 my-2">
+                    <div class="d-flex align-items-center justify-content-lg-between">
+                      <label for="myfile">Upload Image : </label>
+                      <input type="file" id="myfile" name="myfile">
                     </div>
                   </div>
-                </form>
-              </div>
+
+                  <div class="text-center">
+                    <button type="button" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-2 mb-0"
+                      data-bs-dismiss="modal">Submit</button>
+                  </div>
+                </div>
+              </form>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
+    </div>
 
-      <footer class="footer py-4  ">
-        <div class="container-fluid">
-          <div class="row align-items-center justify-content-lg-between">
-            <div class="col-lg-6 mb-lg-0 mb-4">
-              <div class="copyright text-center text-sm text-muted text-lg-start">
-                ©
-                <script>
-                  document.write(new Date().getFullYear())
-                </script>,
-                made with <i class="fa fa-heart"></i> by
-                <a href="https://www.placiddigital.com" class="font-weight-bold" target="_blank">Placid Digital</a>
-                for a better web.
-              </div>
+    <!-- Modal for adding courses -->
+    <div class="modal fade" id="exampleModl" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add Courses</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+
+            <div class="card-body">
+              <form role="form">
+                <div class="row">
+                  <div class="col-lg-6 col-md-6">
+                    <div class="input-group input-group-outline mb-3">
+                      <label class="form-label">Course</label>
+                      <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
+                    </div>
+                  </div>
+
+                  <div class="col-lg-6 col-md-6">
+                    <div class="input-group input-group-outline mb-3">
+                      <select class="form-select form-control" onfocus="focused(this)" onfocusout="defocused(this)"
+                        aria-label="Default select example">
+                        <option selected>Fees</option>
+                        <option value="13k">13k</option>
+                        <option value="15k">15k</option>
+                        <option value=30k">30k</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="input-group input-group-outline mb-3">
+                    <textarea class="form-control col-lg-12 col-md-6" placeholder="Leave a comment here"
+                      id="floatingTextarea"></textarea>
+                  </div>
+
+
+                  <div class="text-center">
+                    <button type="button" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-2 mb-0"
+                      data-bs-dismiss="modal">Submit</button>
+                  </div>
+                </div>
+              </form>
             </div>
-
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
         </div>
-      </footer>
+      </div>
+    </div>
+
+    <footer class="footer py-4  ">
+      <div class="container-fluid">
+        <div class="row align-items-center justify-content-lg-between">
+          <div class="col-lg-6 mb-lg-0 mb-4">
+            <div class="copyright text-center text-sm text-muted text-lg-start">
+              ©
+              <script>
+                document.write(new Date().getFullYear())
+              </script>,
+              made with <i class="fa fa-heart"></i> by
+              <a href="https://www.placiddigital.com" class="font-weight-bold" target="_blank">Placid Digital</a>
+              for a better web.
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </footer>
     </div>
   </main>
   <div class="fixed-plugin">

@@ -5,6 +5,7 @@ urlpatterns = [
     path('',views.index),
     path('sign_in_reg/',views.sign_in_reg),
     path('courses/',views.courses),
+    path('courses_add/',views.courses_add),
     path('dashboard/',views.dashboard),
     path('employees/',views.employees),
     path('notifications/',views.notifications),
@@ -15,5 +16,7 @@ urlpatterns = [
     path('tables/',views.tables),
     path('tenants/',views.tenants),
     path('viewstudents/',views.viewstudents),
-    
+    path('delete/<int:uid>',views.delete),
+    path('update/<int:uid>',views.update),
+    path('upd/',views.upd),
 ]

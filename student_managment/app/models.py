@@ -8,5 +8,6 @@ class Student(models.Model):
 
 class student_dashboard(models.Model):
     Course_Name = models.CharField(max_length=200)
-    Fess = models.CharField(max_length=100)
+    Fess = models.FloatField()
     Duration = models.CharField(max_length=100)
+    Description = models.TextField()
