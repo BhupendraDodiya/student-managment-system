@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.hashers import make_password,check_password
-from app.models import Student,student_dashboard
+from app.models import *
 from django.contrib import messages
 
 # Create your views here.
@@ -99,5 +99,31 @@ def upd(request):
         student_dashboard.objects.filter(id=row).update(Course_Name=cname,Fess=fess,Duration=duration,Description=description)
         return redirect('/courses/')
 
+def addstudent(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        mobile = request.POST.get("mobile")
+        college = request.POST.get("college")
+        degree = request.POST.get("degree")
+        address = request.POST.get("address")
+        course = request.POST.get("course")
+        total_amount = request.POST.get("total_amount")
+        paid_amount = request.POST.get("paid_amount")
+        due_amount = request.POST.get("due_amount")
+        stu_course = student_dashboard.objects.get(id=course)
+        if AddStudents.objects.filter(email=email).exists():
+            messages.error(request,'Email already exists')
+            return redirect('/viewstudents/')
 
-    
+        elif AddStudents.objects.filter(mobile=mobile).exists():
+            messages.error(request,'mobile number already exists')
+            return redirect('/viewstudents/')
+
+        else:
+            AddStudents.objects.create(name=name,email=email,mobile=mobile,address=address,
+            college=college,degree=degree,course=course,total_amount=total_amount,
+            paid_amount=paid_amount,due_amount=due_amount)
+
+            messages.success(request,'student added successfully')
+            
