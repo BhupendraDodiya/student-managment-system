@@ -37,8 +37,9 @@ def tenants(request):
     return render(request,'tenants.html')
 
 def viewstudents(request):
-    stud = Student.objects.all()
-    return render(request,'viewstudents.html',{'stud':stud})
+    data = student_dashboard.objects.all()
+    courses = AddStudents.objects.all()
+    return render(request,'viewstudents.html',{'data':data,'courses':courses})
 
 #create action views
 def delete(request,uid):
@@ -122,8 +123,9 @@ def addstudent(request):
 
         else:
             AddStudents.objects.create(name=name,email=email,mobile=mobile,address=address,
-            college=college,degree=degree,course=course,total_amount=total_amount,
+            college=college,degree=degree,course=stu_course,total_amount=total_amount,
             paid_amount=paid_amount,due_amount=due_amount)
 
             messages.success(request,'student added successfully')
-            
+            courses = AddStudents.objects.all()
+            return render(request,'viewstudents.html',{'courses':courses})

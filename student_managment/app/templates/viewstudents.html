@@ -179,7 +179,37 @@
             <div class="card-body px-0 pb-2">
               <div class="table-responsive">
                 <table class="table align-items-center mb-0">
-                  
+                  <thead>
+                    <th>NAME</th>
+                    <th>EMAIL</th>
+                    <th>MOBILE</th>
+                    <th>ADDRESS</th>
+                    <th>COLLEGE</th>
+                    <th>DEGREE</th>
+                    <th>TOTAL_AMOUNT</th>
+                    <th>PAID_AMOUNT</th>
+                    <th>DUE_AMOUNT</th>
+                    <th>COURSE</th>
+                  </thead>
+                  <tbody>
+                    {% if courses %}
+                     {% for i in courses  %}
+                      <tr>
+                        <td>{{i.name}}</td>
+                        <td>{{i.email}}</td>
+                        <td>{{i.mobile}}</td>
+                        <td>{{i.address}}</td>
+                        <td>{{i.college}}</td>
+                        <td>{{i.degree}}</td>
+                        <td>{{i.total_amount}}</td>
+                        <td>{{i.paid_amount}}</td>
+                        <td>{{i.due_amount}}</td>
+                        <td>{{i.course.Course_Name}}</td>
+                      </tr>
+                     {% endfor %}
+                    {% endif %}
+                   
+                  </tbody>
                 </table>
               </div>
             </div>
@@ -199,7 +229,8 @@
             </div>
             <div class="modal-body">
               <div class="card-body">
-                <form role="form" method='post' action='//'>
+                <form role="form" method='post' action='/addstudent/'>
+                  {% csrf_token %}
                   <div class="row">
                     <div class="col-lg-6 col-md-6">
                       <div class="input-group input-group-outline mb-3">
@@ -243,8 +274,13 @@
 
                     <div class="col-lg-6 col-md-6">
                       <div class="input-group input-group-outline mb-3">
-                        <label class="form-label">Course</label>
-                        <input type="text" name="course" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
+                        <select class="form-select form-control" placeholder="courses" onfocus="focused(this)"
+                          onfocusout="defocused(this)" aria-label="Default select example" name="course">
+                          <option class="fw-lighter">Courses</option>
+                          {% for i in data %}
+                          <option value={{i.id}}>{{i.Course_Name}}</option>
+                          {% endfor %}
+                        </select>
                       </div>
                     </div>
 
@@ -271,7 +307,7 @@
 
 
                     <div class="text-center">
-                      <button type="button" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-2 mb-0"
+                      <button  class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-2 mb-0"
                         data-bs-dismiss="modal">Submit</button>
                     </div>
                   </div>
