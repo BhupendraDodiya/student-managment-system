@@ -33,9 +33,6 @@ def sign_up(request):
 def tables(request):
     return render(request,'tables.html')
 
-def tenants(request):
-    return render(request,'tenants.html')
-
 def viewstudents(request):
     data = student_dashboard.objects.all()
     courses = AddStudents.objects.all()
@@ -44,8 +41,8 @@ def viewstudents(request):
 #create action views
 def delete(request,uid):
     student_dashboard.objects.filter(id=uid).delete()
-    return redirect('/courses/')
-
+    res = student_dashboard.objects.all()
+    return render(request,'courses.html',{'tab':res})
 
 def sign_up_reg(request):
     if request.method == 'POST':
@@ -84,7 +81,8 @@ def courses_add(request):
             return render(request,'courses.html',{'msg':'Course already exist'})
         else:
             student_dashboard.objects.create(Course_Name=cname,Fess=fess,Duration=duration,Description=description)
-            return redirect('/courses/')
+            res = student_dashboard.objects.all()
+            return render(request,'courses.html',{'tab':res})
 
 def update(request,uid):
     res = student_dashboard.objects.get(id=uid)
@@ -98,7 +96,8 @@ def upd(request):
         duration = request.POST['duration']
         description = request.POST['description']
         student_dashboard.objects.filter(id=row).update(Course_Name=cname,Fess=fess,Duration=duration,Description=description)
-        return redirect('/courses/')
+        res = student_dashboard.objects.all()
+        return render(request,'courses.html',{'tab':res})
 
 def addstudent(request):
     if request.method == "POST":
@@ -127,5 +126,12 @@ def addstudent(request):
             paid_amount=paid_amount,due_amount=due_amount)
 
             messages.success(request,'student added successfully')
+            data = student_dashboard.objects.all()
             courses = AddStudents.objects.all()
-            return render(request,'viewstudents.html',{'courses':courses})
+            return render(request,'viewstudents.html',{'data':data,'courses':courses})
+        
+# teachers view 
+
+def teachers(request):
+    tab = student_dashboard.objects.all()
+    return render(request,'teachers.html',{'tab':tab})

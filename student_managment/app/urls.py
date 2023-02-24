@@ -14,10 +14,10 @@ urlpatterns = [
     path('sign-up/',views.sign_up),
     path('sign_up_reg/',views.sign_up_reg),
     path('tables/',views.tables),
-    path('tenants/',views.tenants),
     path('viewstudents/',views.viewstudents),
     path('delete/<int:uid>',views.delete),
     path('update/<int:uid>',views.update),
     path('upd/',views.upd),
     path('addstudent/',views.addstudent),
+    path('teachers/',views.teachers),
 ]

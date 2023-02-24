@@ -23,3 +23,9 @@ class AddStudents(models.Model):
     paid_amount = models.IntegerField()
     due_amount = models.IntegerField()
     course = models.ForeignKey(student_dashboard, on_delete=models.CASCADE)
+
+# class AddTeacher(models.Model):
+#     Name = models.CharField(max_length=100)
+#     EmployeeId = models.CharField(max_length=100)
+#     JoiningDate = models.DateField()
+#     Experience = models.CharField(max_length=100)
