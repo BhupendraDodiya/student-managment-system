@@ -74,42 +74,34 @@ input[type=submit]:hover {
 </head>
 <body>
 
-<h2>Update Form</h2>
+<h2>Update Student</h2>
 
 <div class="container">
-  <form method='post' action="/upd/">
+  <form method='post' action="/updstudent/">
     {% csrf_token %}
-    <input value='{{row.id}}' type="hidden" name="row"/>
+    <input value='{{id.id}}' type="hidden" name="ro"/>
   <div class="row">
     <div class="col-25">
-      <label for="fname">Course Name</label>
+      <label for="fname">Student Name</label>
     </div>
     <div class="col-75">
-      <input type="text" id="fname" name="coursename" placeholder="course name..">
+      <input type="text" id="fname" name="name" placeholder="course student name..">
     </div>
   </div>
   <div class="row">
     <div class="col-25">
-      <label for="lname">Fess</label>
+      <label for="lname">Email</label>
     </div>
     <div class="col-75">
-      <input type="text" id="lname" name="fess" placeholder="enter fess ..">
+      <input type="text" id="lname" name="email" placeholder="enter email ..">
     </div>
   </div>
   <div class="row">
     <div class="col-25">
-      <label for="lname">Duration</label>
+      <label for="lname">Address</label>
     </div>
     <div class="col-75">
-      <input type="text" id="lname" name="duration" placeholder="duration ..">
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-25">
-      <label for="subject">Description</label>
-    </div>
-    <div class="col-75">
-      <textarea id="subject" name="description" placeholder="Write description.." style="height:200px"></textarea>
+      <input type="text" id="lname" name="address" placeholder="address ..">
     </div>
   </div>
   <br>

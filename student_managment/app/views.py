@@ -1,66 +1,29 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.hashers import make_password,check_password
+from django.contrib.auth.decorators import login_required
 from app.models import *
 from django.contrib import messages
+from django.views import View
 
-# Create your views here.
-def index(request):
-    return render(request,'index.html')
-
-def courses(request):
-    res = student_dashboard.objects.all()
-    return render(request,'courses.html',{'tab':res})
+#dashboard view start
 
 def dashboard(request):
-    res = student_dashboard.objects.all()
-    return render(request,'dashboard.html',{'res':res})
+    res = Course.objects.all()
+    teacher = AddTeacher.objects.all()
+    return render(request,'dashboard.html',{'res':res,'teacher':teacher})
 
-def employees(request):
-    return render(request,'employees.html')
+#dashboard view end
 
-def notifications(request):
-    return render(request,'notifications.html')
-
-def pg_dashboard(request):
-    return render(request,'pg_dashboard.html')
-
-def profile(request):
-    return render(request,'profile.html')
-
-def sign_up(request):
-    return render(request,'sign-up.html')
-
-def tables(request):
-    return render(request,'tables.html')
-
-def viewstudents(request):
-    data = student_dashboard.objects.all()
-    courses = AddStudents.objects.all()
-    return render(request,'viewstudents.html',{'data':data,'courses':courses})
-
-#create action views
-def delete(request,uid):
-    student_dashboard.objects.filter(id=uid).delete()
-    res = student_dashboard.objects.all()
-    return render(request,'courses.html',{'tab':res})
-
-def sign_up_reg(request):
-    if request.method == 'POST':
-        name = request.POST['name']
-        email = request.POST['email']
-        password = make_password(request.POST['password'])
-        if Student.objects.filter(Email=email).exists():
-            return render (request,'sign-up.html',{'msg':'Email Already Exist'})
-        else:
-            Student.objects.create(Name=name,Email=email,Password=password)
-            return redirect('/')
+# sigin in views start
+def index(request):
+    return render(request,'index.html')
 
 def sign_in_reg(request):
     if request.method =="POST":
         email = request.POST['email']
         password = request.POST['password']
-        if Student.objects.filter(Email=email).exists():
-            inst = Student.objects.get(Email=email)
+        if User.objects.filter(Email=email).exists():
+            inst = User.objects.get(Email=email)
             psw = inst.Password
             if check_password(password,psw):
                 return redirect('/dashboard/')
@@ -71,22 +34,50 @@ def sign_in_reg(request):
             messages.error(request,'Email not Exist')
             return redirect('/')
         
+# sigin in views end
+
+# sigin up views start
+
+def sign_up(request):
+    return render(request,'sign-up.html')
+
+def sign_up_reg(request):
+    if request.method == 'POST':
+        name = request.POST['name']
+        email = request.POST['email']
+        password = make_password(request.POST['password'])
+        if User.objects.filter(Email=email).exists():
+            return render (request,'sign-up.html',{'msg':'* Email Already Exist'})
+        else:
+            User.objects.create(Name=name,Email=email,Password=password)
+            return redirect('/')
+
+# sign up views end
+
+
+# courses  views start
+
+def courses(request):
+    res = Course.objects.all()
+    return render(request,'courses.html',{'tab':res})
+
 def courses_add(request):
     if request.method=='POST':
         cname = request.POST['cname']
         fess = request.POST['fess']
         duration = request.POST['duration']
         description = request.POST['description']
-        if student_dashboard.objects.filter(Course_Name=cname).exists():
-            return render(request,'courses.html',{'msg':'Course already exist'})
+        if Course.objects.filter(Course_Name=cname).exists():
+            messages.error(request,'Course already exist')
+            return redirect('/courses/')
         else:
-            student_dashboard.objects.create(Course_Name=cname,Fess=fess,Duration=duration,Description=description)
-            res = student_dashboard.objects.all()
+            Course.objects.create(Course_Name=cname,Fess=fess,Duration=duration,Description=description)
+            res = Course.objects.all()
             return render(request,'courses.html',{'tab':res})
 
 def update(request,uid):
-    res = student_dashboard.objects.get(id=uid)
-    return render(request,'upd.html',{'row':res})
+    res = Course.objects.get(id=uid)
+    return render(request,'course_update.html',{'row':res})
 
 def upd(request):
     if request.method=="POST":
@@ -95,43 +86,111 @@ def upd(request):
         fess = request.POST['fess']
         duration = request.POST['duration']
         description = request.POST['description']
-        student_dashboard.objects.filter(id=row).update(Course_Name=cname,Fess=fess,Duration=duration,Description=description)
-        res = student_dashboard.objects.all()
+        Course.objects.filter(id=row).update(Course_Name=cname,Fess=fess,Duration=duration,Description=description)
+        res = Course.objects.all()
         return render(request,'courses.html',{'tab':res})
+    
+def delete(request,uid):
+    Course.objects.filter(id=uid).delete()
+    return redirect('/courses/')
 
-def addstudent(request):
-    if request.method == "POST":
-        name = request.POST.get("name")
-        email = request.POST.get("email")
-        mobile = request.POST.get("mobile")
-        college = request.POST.get("college")
-        degree = request.POST.get("degree")
-        address = request.POST.get("address")
-        course = request.POST.get("course")
-        total_amount = request.POST.get("total_amount")
-        paid_amount = request.POST.get("paid_amount")
-        due_amount = request.POST.get("due_amount")
-        stu_course = student_dashboard.objects.get(id=course)
-        if AddStudents.objects.filter(email=email).exists():
-            messages.error(request,'Email already exists')
-            return redirect('/viewstudents/')
+# courses views end
 
-        elif AddStudents.objects.filter(mobile=mobile).exists():
-            messages.error(request,'mobile number already exists')
-            return redirect('/viewstudents/')
 
-        else:
-            AddStudents.objects.create(name=name,email=email,mobile=mobile,address=address,
-            college=college,degree=degree,course=stu_course,total_amount=total_amount,
-            paid_amount=paid_amount,due_amount=due_amount)
-
-            messages.success(request,'student added successfully')
-            data = student_dashboard.objects.all()
-            courses = AddStudents.objects.all()
-            return render(request,'viewstudents.html',{'data':data,'courses':courses})
         
-# teachers view 
+# teachers views start
 
 def teachers(request):
-    tab = student_dashboard.objects.all()
-    return render(request,'teachers.html',{'tab':tab})
+    tab = Course.objects.all()
+    data = AddTeacher.objects.all()
+    return render(request,'teachers.html',{'data':data,'tab':tab})
+
+def addteacher(request):
+    if request.method =="POST":
+        Name = request.POST['name']
+        Age = request.POST['age']
+        Joiningdate = request.POST['joiningdate']
+        Experience = request.POST['experience']
+        Image = request.FILES.get('image')
+        Email = request.POST['email']
+        Contact = request.POST['contact']
+        Gender = request.POST['gender']
+        course = request.POST.get('course')
+        course = Course.objects.get(id=course)
+        if AddTeacher.objects.filter(Contact=Contact).exists():
+            messages.error(request,'teacher already exist')
+            return redirect('/teachers/')
+        else:
+            AddTeacher.objects.create(Name=Name,Age=Age,JoiningDate=Joiningdate,Experience=Experience,
+                                        Image=Image,Email=Email,Contact=Contact,Gender=Gender,Course=course)
+            return redirect('/teachers/')
+        
+class deleteteacher(View):
+    def get(self,request,uid):
+        AddTeacher.objects.filter(id=uid).delete()
+        return redirect('/teachers/')
+    
+class updateteacher(View):
+    def get(self,request,uid):
+        row = AddTeacher.objects.get(id=uid)
+        return render(request,'teacher_update.html',{'row':row})
+    
+class updteacher(View):
+    def post(self,request):
+        id = request.POST['row']
+        Name = request.POST['name']
+        Age = request.POST['age']
+        Experience = request.POST['experience']
+        AddTeacher.objects.filter(id=id).update(Name=Name,Age=Age,Experience=Experience)
+        return redirect('/teachers/')
+
+# teachers views end
+    
+#Students view start
+
+class student(View):
+    def get(self,request):
+        cou = Course.objects.all()
+        student = Students.objects.all()
+        return render(request,'viewstudents.html',{'cou':cou,'stud':student})
+    
+def addstudent(request):
+    if request.method =="POST":
+        name = request.POST['name']
+        email = request.POST['email']
+        mobile = request.POST['mobile']
+        Image = request.FILES.get('pic')
+        address = request.POST['address']
+        college = request.POST['college']
+        degree = request.POST['degree']
+        total_amount = request.POST['total_amount']
+        paid_amount = request.POST['paid_amount']
+        due_amount = request.POST['due_amount']
+        course = request.POST.get('course')
+        course = Course.objects.get(id=course)
+        if Students.objects.filter(email=email).exists():
+            messages.error(request,'student already exist')
+            return redirect('/student/')
+        else:
+            Students.objects.create(name=name,email=email,mobile=mobile,Picture=Image,address=address,
+                                    college=college,degree=degree,total_amount=total_amount,paid_amount=paid_amount,
+                                    due_amount=due_amount,course=course)
+            return redirect('/student/')
+        
+class deletestudent(View):
+    def get(self,request,uid):
+        Students.objects.filter(id=uid).delete()
+        return redirect('/student/')
+    
+def updatestudent(request,uid):
+    id = Students.objects.get(id=uid)
+    return render(request,'student_update.html',{'id':id})
+
+class updstudent(View):
+    def post(self,request):
+        id = request.POST['ro']
+        name = request.POST['name']
+        email = request.POST['email']
+        address = request.POST['address']
+        Students.objects.filter(id=id).update(name=name,email=email,address=address)
+        return redirect('/student/')

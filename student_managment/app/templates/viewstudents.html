@@ -34,38 +34,40 @@
         aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand m-0" href=" " target="_blank">
 
-        <span class="ms-1 font-weight-bold text-white">Satkar Courses</span>
+        <span class="ms-1 font-weight-bold text-white">Mangalam Institute</span>
       </a>
     </div>
     <hr class="horizontal light mt-0 mb-2">
     <div class="collapse navbar-collapse  w-auto  max-height-vh-100" id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link text-white" href="/dashboard.html">
+          <a class="nav-link text-white " href="/dashboard/">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">dashboard</i>
+              <i class="material-icons opacity-10">receipt_long</i>
             </div>
             <span class="nav-link-text ms-1">Dashboard</span>
           </a>
         </li>
+
         <li class="nav-item">
-          <a class="nav-link text-white " href="tenants.html">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">table_view</i>
-            </div>
-            <span class="nav-link-text ms-1">Tenants</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white " href="employees.html">
+          <a class="nav-link text-white " href="/teachers/">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">receipt_long</i>
             </div>
-            <span class="nav-link-text ms-1">Employees</span>
+            <span class="nav-link-text ms-1">All Teachers</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link text-white " href="/student/">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">receipt_long</i>
+            </div>
+            <span class="nav-link-text ms-1">All Students</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white active bg-gradient-primary" href="/courses.html">
+          <a class="nav-link text-white " href="/courses/">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">view_in_ar</i>
             </div>
@@ -74,38 +76,11 @@
         </li>
 
 
-        <li class="nav-item mt-3">
-          <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white " href="/profile.html">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">person</i>
-            </div>
-            <span class="nav-link-text ms-1">Profile</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white " href="/">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">login</i>
-            </div>
-            <span class="nav-link-text ms-1">Sign In</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white " href="/sign-up.html">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">assignment</i>
-            </div>
-            <span class="nav-link-text ms-1">Sign Up</span>
-          </a>
-        </li>
       </ul>
     </div>
     <div class="sidenav-footer position-absolute w-100 bottom-0 ">
       <div class="mx-3">
-        <a class="btn bg-gradient-primary mt-4 w-100" href="" type="button">Logout</a>
+        <a class="btn bg-gradient-primary mt-4 w-100" href="/" type="button">Logout</a>
       </div>
     </div>
   </aside>
@@ -116,8 +91,8 @@
       <div class="container-fluid py-1 px-3">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Dashboard</a></li>
-            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Add Tenant</li>
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Page</a></li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Student</li>
           </ol>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
@@ -156,6 +131,9 @@
                 <i class="material-icons opacity-10">weekend</i>
               </div>
               <div class="text-end pt-1">
+                {% for i in messages %}
+                <strong style='color:red;'>* {{i}} </strong>
+                {% endfor %}
                 <a class="btn bg-gradient-dark mb-0" href="javascript:;" data-bs-toggle="modal"
                   data-bs-target="#exampleModal"><i class="material-icons text-sm">add</i>Add Students</a>
               </div>
@@ -181,34 +159,31 @@
                 <table class="table align-items-center mb-0">
                   <thead>
                     <th>NAME</th>
+                    <th>IMAGE</th>
                     <th>EMAIL</th>
                     <th>MOBILE</th>
-                    <th>ADDRESS</th>
-                    <th>COLLEGE</th>
-                    <th>DEGREE</th>
-                    <th>TOTAL_AMOUNT</th>
-                    <th>PAID_AMOUNT</th>
-                    <th>DUE_AMOUNT</th>
                     <th>COURSE</th>
+                    <th>ACTION</th>
                   </thead>
                   <tbody>
-                    {% if courses %}
-                     {% for i in courses  %}
-                      <tr>
-                        <td>{{i.name}}</td>
-                        <td>{{i.email}}</td>
-                        <td>{{i.mobile}}</td>
-                        <td>{{i.address}}</td>
-                        <td>{{i.college}}</td>
-                        <td>{{i.degree}}</td>
-                        <td>{{i.total_amount}}</td>
-                        <td>{{i.paid_amount}}</td>
-                        <td>{{i.due_amount}}</td>
-                        <td>{{i.course.Course_Name}}</td>
-                      </tr>
-                     {% endfor %}
+                    {% if stud %}
+                    {% for i in stud %}
+                    <tr>
+                      <td>{{i.name}}</td>
+                      <td><img class='rounded-5' style="width:50px;height:50px;" src="{{i.Picture.url}}" /></td>
+                      <td>{{i.email}}</td>
+                      <td>{{i.mobile}}</td>
+                      <td>{{i.course.Course_Name}}</td>
+                      <td><a class="btn btn-primary" href="/updatestudent/{{i.id}}"><i class="fa fa-pencil">
+                            Edit</i></a>&nbsp&nbsp
+                        <a class="btn btn-danger" href="/deletestudent/{{i.id}}"
+                          onclick="return confirm('Are you sure you want to delete this?')">
+                          <i class="fa fa-trash"> Delete </i></a>
+                      </td>
+                    </tr>
+                    {% endfor %}
                     {% endif %}
-                   
+
                   </tbody>
                 </table>
               </div>
@@ -235,40 +210,55 @@
                     <div class="col-lg-6 col-md-6">
                       <div class="input-group input-group-outline mb-3">
                         <label class="form-label">Name</label>
-                        <input type="text" name="name" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
+                        <input type="text" name="name" class="form-control" onfocus="focused(this)"
+                          onfocusout="defocused(this)">
                       </div>
                     </div>
                     <div class="col-lg-6 col-md-6">
                       <div class="input-group input-group-outline mb-3">
                         <label class="form-label">Email</label>
-                        <input type="email" name="email" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
-                      </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6">
-                      <div class="input-group input-group-outline mb-3">
-                        <label class="form-label">Mobile No.</label>
-                        <input type="text" name="mobile" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
+                        <input type="email" name="email" class="form-control" onfocus="focused(this)"
+                          onfocusout="defocused(this)">
                       </div>
                     </div>
 
                     <div class="col-lg-6 col-md-6">
                       <div class="input-group input-group-outline mb-3">
+                        <label class="form-label">Mobile No.</label>
+                        <input type="text" name="mobile" class="form-control" onfocus="focused(this)"
+                          onfocusout="defocused(this)">
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6 col-md-6">
+                      <div class="input-group input-group-outline mb-3">
+                        <span style="color:black;">IMAGE </span>&nbsp&nbsp
+                        <input type="file" name='pic'/>
+                      </div>
+                    </div>
+                    
+
+                    <div class="col-lg-6 col-md-6">
+                      <div class="input-group input-group-outline mb-3">
                         <label class="form-label">Address</label>
-                        <input type="text" name="address" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
+                        <input type="text" name="address" class="form-control" onfocus="focused(this)"
+                          onfocusout="defocused(this)">
                       </div>
                     </div>
 
                     <div class="col-lg-6 col-md-6">
                       <div class="input-group input-group-outline mb-3">
                         <label class="form-label">College</label>
-                        <input type="text" name="college" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
+                        <input type="text" name="college" class="form-control" onfocus="focused(this)"
+                          onfocusout="defocused(this)">
                       </div>
                     </div>
 
                     <div class="col-lg-6 col-md-6">
                       <div class="input-group input-group-outline mb-3">
                         <label class="form-label">Degree</label>
-                        <input type="text" name="degree" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
+                        <input type="text" name="degree" class="form-control" onfocus="focused(this)"
+                          onfocusout="defocused(this)">
                       </div>
                     </div>
 
@@ -277,7 +267,7 @@
                         <select class="form-select form-control" placeholder="courses" onfocus="focused(this)"
                           onfocusout="defocused(this)" aria-label="Default select example" name="course">
                           <option class="fw-lighter">Courses</option>
-                          {% for i in data %}
+                          {% for i in cou %}
                           <option value={{i.id}}>{{i.Course_Name}}</option>
                           {% endfor %}
                         </select>
@@ -287,27 +277,30 @@
                     <div class="col-lg-6 col-md-6">
                       <div class="input-group input-group-outline mb-3">
                         <label class="form-label">Total Amount</label>
-                        <input type="text" name="total_amount" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
+                        <input type="text" name="total_amount" class="form-control" onfocus="focused(this)"
+                          onfocusout="defocused(this)">
                       </div>
                     </div>
-                    
+
                     <div class="col-lg-6 col-md-6">
                       <div class="input-group input-group-outline mb-3">
                         <label class="form-label">Paid Amount</label>
-                        <input type="text" name="paid_amount" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
+                        <input type="text" name="paid_amount" class="form-control" onfocus="focused(this)"
+                          onfocusout="defocused(this)">
                       </div>
                     </div>
 
                     <div class="col-lg-6 col-md-6">
                       <div class="input-group input-group-outline mb-3">
                         <label class="form-label">Due Amount</label>
-                        <input type="text" name="due_amount" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
+                        <input type="text" name="due_amount" class="form-control" onfocus="focused(this)"
+                          onfocusout="defocused(this)">
                       </div>
                     </div>
 
 
                     <div class="text-center">
-                      <button  class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-2 mb-0"
+                      <button class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-2 mb-0"
                         data-bs-dismiss="modal">Submit</button>
                     </div>
                   </div>
@@ -331,7 +324,7 @@
                   document.write(new Date().getFullYear())
                 </script>,
                 made with <i class="fa fa-heart"></i> by
-                <a href="https://www.placiddigital.com" class="font-weight-bold" target="_blank">Placid Digital</a>
+                <a href="https://www.placiddigital.com" class="font-weight-bold" target="_blank">Bhupendra Digital</a>
                 for a better web.
               </div>
             </div>
