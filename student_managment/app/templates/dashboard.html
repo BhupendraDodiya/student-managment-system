@@ -131,7 +131,7 @@
               </div>
               <div class="text-end pt-1">
                 <p class="text-sm mb-0 text-capitalize">Total Students</p>
-                <h4 class="mb-0">5</h4>
+                <h4 class="mb-0">{{student_count}}</h4>
               </div>
             </div>
             <hr class="dark horizontal my-0">
@@ -149,7 +149,7 @@
               </div>
               <div class="text-end pt-1">
                 <p class="text-sm mb-0 text-capitalize">Total Courses</p>
-                <h4 class="mb-0">10</h4>
+                <h4 class="mb-0">{{course_count}}</h4>
               </div>
             </div>
             <hr class="dark horizontal my-0">
@@ -167,7 +167,7 @@
               </div>
               <div class="text-end pt-1">
                 <p class="text-sm mb-0 text-capitalize">Total Teachers</p>
-                <h4 class="mb-0">5</h4>
+                <h4 class="mb-0">{{teacher_count}}</h4>
               </div>
             </div>
             <hr class="dark horizontal my-0">
@@ -234,6 +234,7 @@
                     <thead>
                       <tr>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Teacher Name</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Image</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Course</th>
                         <th class=" text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Experience</th>
                       </tr>
@@ -243,6 +244,7 @@
                       {% for i in teacher %}
                      <tr>
                       <td>{{i.Name}}</td>
+                      <td><img class='rounded-5' style="width:50px;height:50px;" src="{{i.Image.url}}" /></td>
                       <td>{{i.Course}}</td>
                       <td>{{i.Experience}}</td>
                      </tr>
@@ -254,6 +256,46 @@
               </div>
             </div>
           </div>
+
+          <div class="row mt-4 mb-4">
+            <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
+              <div class="card">
+                <div class="card-header pb-0">
+                  <div class="row">
+                    <div class="col-lg-6 col-7">
+                      <h6>Our Students</h6>
+                    </div>
+    
+                  </div>
+                </div>
+                <div class="card-body px-0 pb-2">
+                  <div class="table-responsive">
+                    <table class="table  align-items-center mb-0">
+                      <thead>
+                        <tr>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Name</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Image</th>
+                          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Course</th>
+                          <th class=" text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Duration</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% if student %}
+                        {% for i in student %}
+                       <tr>
+                        <td>{{i.name}}</td>
+                        <td><img class='rounded-5' style="width:50px;height:50px;" src="{{i.Picture.url}}" /></td>
+                        <td>{{i.course}}</td>
+                        <td>{{i.email}}</td>
+                       </tr>
+                       {% endfor %}
+                       {% endif %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
 
         <div class="col-lg-4 col-md-6">
           <div class="card h-100">

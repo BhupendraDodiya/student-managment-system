@@ -10,7 +10,12 @@ from django.views import View
 def dashboard(request):
     res = Course.objects.all()
     teacher = AddTeacher.objects.all()
-    return render(request,'dashboard.html',{'res':res,'teacher':teacher})
+    student = Students.objects.all()
+    course_count= Course.objects.all().count()
+    teacher_count= AddTeacher.objects.all().count()
+    student_count= Students.objects.all().count()
+    return render(request,'dashboard.html',{'res':res,'teacher':teacher,'student':student,
+                                'course_count':course_count,'teacher_count':teacher_count,'student_count':student_count})
 
 #dashboard view end
 
@@ -115,7 +120,7 @@ def addteacher(request):
         Email = request.POST['email']
         Contact = request.POST['contact']
         Gender = request.POST['gender']
-        course = request.POST.get('course')
+        course = request.POST['course']
         course = Course.objects.get(id=course)
         if AddTeacher.objects.filter(Contact=Contact).exists():
             messages.error(request,'teacher already exist')
@@ -154,29 +159,7 @@ class student(View):
         student = Students.objects.all()
         return render(request,'viewstudents.html',{'cou':cou,'stud':student})
     
-def addstudent(request):
-    if request.method =="POST":
-        name = request.POST['name']
-        email = request.POST['email']
-        mobile = request.POST['mobile']
-        Image = request.FILES.get('pic')
-        address = request.POST['address']
-        college = request.POST['college']
-        degree = request.POST['degree']
-        total_amount = request.POST['total_amount']
-        paid_amount = request.POST['paid_amount']
-        due_amount = request.POST['due_amount']
-        course = request.POST.get('course')
-        course = Course.objects.get(id=course)
-        if Students.objects.filter(email=email).exists():
-            messages.error(request,'student already exist')
-            return redirect('/student/')
-        else:
-            Students.objects.create(name=name,email=email,mobile=mobile,Picture=Image,address=address,
-                                    college=college,degree=degree,total_amount=total_amount,paid_amount=paid_amount,
-                                    due_amount=due_amount,course=course)
-            return redirect('/student/')
-        
+      
 class deletestudent(View):
     def get(self,request,uid):
         Students.objects.filter(id=uid).delete()
@@ -194,3 +177,29 @@ class updstudent(View):
         address = request.POST['address']
         Students.objects.filter(id=id).update(name=name,email=email,address=address)
         return redirect('/student/')
+    
+def addstudent(request):
+    if request.method =="POST":
+        name = request.POST['name']
+        email = request.POST['email']
+        mobile = request.POST['mobile']
+        Picture = request.FILES.get('image')
+        address = request.POST['address']
+        college = request.POST['college']
+        degree = request.POST['degree']
+        total_amount = request.POST['total_amount']
+        paid_amount = request.POST['paid_amount']
+        due_amount = request.POST['due_amount']
+        course = request.POST['course']
+        course = Course.objects.get(id=course)
+        print(Picture)
+        if Students.objects.filter(email=email).exists():
+            messages.error(request,'student already exist')
+            return redirect('/student/')
+        else:
+            Students.objects.create(name=name,email=email,mobile=mobile,Picture=Picture,address=address,
+                                    college=college,degree=degree,total_amount=total_amount,paid_amount=paid_amount,
+                                    due_amount=due_amount,course=course)
+            return redirect('/student/')
+    
+#Students view end
