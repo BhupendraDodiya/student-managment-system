@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'student_managment.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'student_data',
+        'NAME': 'student_managment',
         'USER': 'root',
         'PASSWORD': '',
         'HOST':'localhost',

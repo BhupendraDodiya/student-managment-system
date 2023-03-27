@@ -11,9 +11,9 @@ def dashboard(request):
     res = Course.objects.all()
     teacher = AddTeacher.objects.all()
     student = Students.objects.all()
-    course_count= Course.objects.all().count()
-    teacher_count= AddTeacher.objects.all().count()
-    student_count= Students.objects.all().count()
+    course_count= res.count()
+    teacher_count= teacher.count()
+    student_count= student.count()
     return render(request,'dashboard.html',{'res':res,'teacher':teacher,'student':student,
                                 'course_count':course_count,'teacher_count':teacher_count,'student_count':student_count})
 
